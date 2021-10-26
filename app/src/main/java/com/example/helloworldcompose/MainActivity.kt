@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +21,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.example.helloworldcompose.data.UserViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -56,11 +59,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
+            val viewModel: UserViewModel by viewModels()
+
             Column {
                 TopAppBar(title = {
-                    Text(text = "AppBar")
+                    Text(text = stringResource(id = R.string.app_name))
                 } )
-                Navigation()
+                Navigation(viewModel = viewModel)
 
             }
 

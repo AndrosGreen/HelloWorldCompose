@@ -18,14 +18,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.helloworldcompose.data.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+
 
 @Composable
-fun AddItem (navController: NavController){
+fun AddItem (navController: NavController, viewModel: UserViewModel){
 
     var txtFirstName by remember { mutableStateOf("") }
     var txtLastName by remember { mutableStateOf("") }
     var txtAge by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    val nombre by viewModel.nombre().observeAsState("")
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -33,9 +38,9 @@ fun AddItem (navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            value = txtFirstName,
+            value = nombre,
             onValueChange = {
-                txtFirstName = it
+                viewModel.cambiarNombre(it)
             },
             placeholder = { Text("First Name") }
         )
@@ -58,10 +63,10 @@ fun AddItem (navController: NavController){
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                val user = User(0,txtFirstName,txtLastName, txtAge.toInt())
+                val user = User( firstName = nombre, lastName = txtLastName, age = txtAge.toInt())
                 insertarDatos(context,user)
-                Toast.makeText(context, user.firstName, Toast.LENGTH_SHORT).show()
-                //navController.navigate(Screen.ListItems.route)
+                Toast.makeText(context, user.firstName , Toast.LENGTH_SHORT).show()
+                navController.navigate(Screen.ListItems.route)
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {

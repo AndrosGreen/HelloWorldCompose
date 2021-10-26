@@ -6,9 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.helloworldcompose.data.UserViewModel
 
 @Composable
-fun Navigation(){
+fun Navigation(
+    viewModel: UserViewModel
+){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.ListItems.route){
         composable(route = Screen.MainScreen.route){
@@ -30,7 +33,7 @@ fun Navigation(){
             ListItems(navController = navController)
         }
         composable(route = Screen.AddItem.route){
-            AddItem(navController = navController)
+            AddItem(navController = navController, viewModel = viewModel)
         }
     }
 }
